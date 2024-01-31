@@ -1,5 +1,5 @@
 import { fetchUser } from '@/lib/actions/user.actions';
-import { currentUser } from '@clerk/nextjs';
+import {currentUser} from '@clerk/nextjs'
 import { redirect } from 'next/navigation';
 import React from 'react'
 import ProfileHeader from '../../../../../components/shared/ProfileHeader';
@@ -57,7 +57,7 @@ async function Page ({params}:{params:{id:string}}) {
                         <TabsContent value="threads" className='w-full text-light-1'>
                             <ThreadsTab
                             currentUserId={user.id}
-                            accountId={communityDetails.id}
+                            accountId={communityDetails._id}
                             accountType="Community"
 
                             />

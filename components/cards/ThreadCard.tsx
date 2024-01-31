@@ -115,13 +115,23 @@ const ThreadCard = (
         </div>
       )}
 
+      <div className='flex flex-row'>
+    {
+      !isComment && (
+        <p className='mt-5 text-subtle-medium text-gray-1'>
+            {formatDateString(createdAt)}
+           
+          </p>
+      )
+    }
+
 {!isComment && community && (
         <Link
           href={`/communities/${community.id}`}
           className='mt-5 flex items-center'
         >
           <p className='text-subtle-medium text-gray-1'>
-            {formatDateString(createdAt)}
+            
             {community && ` - ${community.name} Community`}
           </p>
 
@@ -134,6 +144,8 @@ const ThreadCard = (
           />
         </Link>
       )}
+
+   </div>
 
         
     </article>
