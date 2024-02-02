@@ -7,9 +7,9 @@ import {dark} from "@clerk/themes"
 const Topbar = () => {
    
   return (
-    <nav className='topbar max-h-[80px]'>
-       <Link href="/" className='flex items-center gap-4'>
-        <Image src="/tejaslogo.png" alt="" width={120} height={20} />
+    <nav className='topbar max-h-[60px] xs:max-h-[80px]'>
+       <Link href="/" className='flex items-center gap-4 w-[120px] h-[55px] xs:h-[70px] relative'>
+        <Image src="/tejaslogo.png" alt="" fill priority className='object-contain'/>
         {/* <p className='text-heading3-bold text-light-1 max-xs:hidden'>Threads</p> */}
 
        </Link>

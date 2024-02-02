@@ -1,8 +1,13 @@
+
 import { formatDateString } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DeleteThread from '../forms/DeleteThread';
+
+import Share from './Share';
+
+
 
 interface Props{
     id:string,
@@ -24,12 +29,14 @@ interface Props{
         author:{
             image:string;
         }
-    }[]
+    }[],
+    
+    
     isComment?:boolean;
 
 }
 
-const ThreadCard = (
+const ThreadCard =async (
     {
         id,
         currentUserId,
@@ -39,10 +46,15 @@ const ThreadCard = (
         community,
         createdAt,
         comments,
+       
         isComment
     }:Props) => {
-  return (
+   
+      
+      
 
+  return (
+    
 
     <article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7 ':'bg-dark-2 p-7 '} `} >
         <div className='flex items-start justify-between'>
@@ -62,16 +74,17 @@ const ThreadCard = (
                     <p className='mt-2 text-small-regular text-light-2'>{content}</p>
                     <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
 
-                        <div className='flex gap-3.5'>
-                            <Image src="/heart-gray.svg" alt="" width={24} height={24} className='cursor-pointer object-contain'/>
+                        <div className='flex gap-3.5 items-center'>
+                            <Image  src='/heart-gray.svg'alt="" width={24} height={24} className='cursor-pointer object-contain' />
                             <Link href={`/thread/${id}`}>
                             <Image src="/reply.svg" alt="" width={24} height={24} className='cursor-pointer object-contain'/>
                             </Link>
                             
                             <Image src="/repost.svg" alt="" width={24} height={24} className='cursor-pointer object-contain'/>
-                            <Image src="/share.svg" alt="" width={24} height={24} className='cursor-pointer object-contain'/>
+                            <Share id={id} author={author.name} content={content}/>
 
                         </div>
+                       
 
                         {
                             isComment && comments.length>0 && (
@@ -97,7 +110,7 @@ const ThreadCard = (
         </div>
         {!isComment && comments.length > 0 && (
         <div className='ml-1 mt-3 flex items-center gap-2'>
-          {comments.slice(0, 2).map((comment, index) => (
+          {comments.slice(0, 3).map((comment, index) => (
             <Image
               key={index}
               src={comment.author.image}
@@ -115,10 +128,10 @@ const ThreadCard = (
         </div>
       )}
 
-      <div className='flex flex-row'>
+      <div className='flex flex-col xs:flex-row gap-2 mt-5 xs:mt-0'>
     {
       !isComment && (
-        <p className='mt-5 text-subtle-medium text-gray-1'>
+        <p className='xs:mt-5 text-subtle-medium text-gray-1'>
             {formatDateString(createdAt)}
            
           </p>
@@ -128,11 +141,11 @@ const ThreadCard = (
 {!isComment && community && (
         <Link
           href={`/communities/${community.id}`}
-          className='mt-5 flex items-center'
+          className='xs:mt-5 flex items-center'
         >
           <p className='text-subtle-medium text-gray-1'>
             
-            {community && ` - ${community.name} Community`}
+            {community && `${community.name} Community`}
           </p>
 
           <Image
