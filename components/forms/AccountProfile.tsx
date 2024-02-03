@@ -93,6 +93,7 @@ const AccountProfile = ({user,btnTitle}:Props) => {
             image: values.profile_photo,
         }
         )
+        form.reset();
         if(pathname==='/profile/edit'){
               router.back();
         }
