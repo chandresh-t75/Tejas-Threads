@@ -90,16 +90,26 @@ export async function createThread({ text, author, communityId, path }: Params
 }
 
 async function fetchAllChildThreads(threadId: string): Promise<any[]> {
-  const childThreads = await Thread.find({ parentId: threadId });
+  try {
+    // Fetch all child threads of the given threadId sorted by createdAt in descending order
+    const childThreads = await Thread.find({ parentId: threadId }).sort({ createdAt: -1 });
 
-  const descendantThreads = [];
-  for (const childThread of childThreads) {
-    const descendants = await fetchAllChildThreads(childThread._id);
-    descendantThreads.push(childThread, ...descendants);
+    // Array to store descendant threads
+    const descendantThreads = [];
+
+    // Iterate through each child thread and recursively fetch its descendants
+    for (const childThread of childThreads) {
+      const descendants = await fetchAllChildThreads(childThread._id);
+      descendantThreads.push(childThread, ...descendants);
+    }
+
+    return descendantThreads;
+  } catch (error) {
+    console.error('Error fetching child threads:', error);
+    throw error;
   }
-
-  return descendantThreads;
 }
+
 
 export async function deleteThread(id: string, path: string): Promise<void> {
   try {
@@ -162,42 +172,44 @@ export async function fetchThreadById(threadId: string) {
   try {
     const thread = await Thread.findById(threadId)
       .populate({
-        path: "author",
+        path: 'author',
         model: User,
-        select: "_id id name image",
-      }) 
+        select: '_id id name image',
+      })
       .populate({
-        path: "community",
+        path: 'community',
         model: Community,
-        select: "_id id name image",
-      }) 
+        select: '_id id name image',
+      })
       .populate({
-        path: "children", 
+        path: 'children',
         populate: [
           {
-            path: "author", 
+            path: 'author',
             model: User,
-            select: "_id id name parentId image", 
+            select: '_id id name parentId image',
           },
           {
-            path: "children",
+            path: 'children',
             model: Thread,
             populate: {
-              path: "author", 
+              path: 'author',
               model: User,
-              select: "_id id name parentId image",
+              select: '_id id name parentId image',
             },
           },
         ],
       })
+      .sort({ createdAt: -1 }) // Sort threads by createdAt in descending order
       .exec();
 
     return thread;
   } catch (err) {
-    console.error("Error while fetching thread:", err);
-    throw new Error("Unable to fetch thread");
+    console.error('Error while fetching thread:', err);
+    throw new Error('Unable to fetch thread');
   }
 }
+
 
 export async function addCommentToThread(
   threadId: string,
@@ -208,29 +220,29 @@ export async function addCommentToThread(
   connectToDB();
 
   try {
-   
     const originalThread = await Thread.findById(threadId);
 
     if (!originalThread) {
       throw new Error("Thread not found");
     }
 
-   
+    // Create the new comment thread
     const commentThread = new Thread({
       text: commentText,
       author: userId,
-      parentId: threadId, 
+      parentId: threadId,
     });
 
-   
+    // Save the new comment thread
     const savedCommentThread = await commentThread.save();
 
+    // Add the new comment thread to the beginning of the children array
+    originalThread.children.unshift(savedCommentThread._id);
 
-    originalThread.children.push(savedCommentThread._id);
-
-
+    // Save the updated original thread
     await originalThread.save();
 
+    // Revalidate the path
     revalidatePath(path);
   } catch (err) {
     console.error("Error while adding comment:", err);

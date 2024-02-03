@@ -33,7 +33,6 @@ const page = async({params}:{params:{id:string}}) => {
                    author={thread.author}
                    community={thread.community}
                    createdAt={thread.createdAt}
-                   
                    comments={thread.children}
                    
                    
