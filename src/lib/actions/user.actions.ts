@@ -171,11 +171,13 @@ export async function getActivity(userId: string) {
     const replies = await Thread.find({
       _id: { $in: childThreadIds },
       author: { $ne: userId }, // Exclude threads authored by the same user
-    }).populate({
+    })
+    .populate({
       path: "author",
       model: User,
       select: "name image _id",
-    });
+    })
+    .sort({ createdAt: -1 }); // Sort the replies based on creation timestamp in descending order
 
     return replies;
   } catch (error) {
