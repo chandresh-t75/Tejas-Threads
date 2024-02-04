@@ -128,7 +128,7 @@ const ThreadCard =async (
         </div>
       )}
 
-      <div className='flex flex-col xs:flex-row gap-2 mt-5 xs:mt-0'>
+      <div className='flex flex-col xs:flex-row gap-2 mt-5 xs:mt-0 items-center'>
     {
       !isComment && (
         <p className='xs:mt-5 text-subtle-medium text-gray-1'>
@@ -147,13 +147,13 @@ const ThreadCard =async (
             
             {community && `${community.name} Community`}
           </p>
-
+          
           <Image
             src={community.image}
             alt={community.name}
             width={14}
             height={14}
-            className='ml-1 rounded-full object-cover'
+            className='ml-1 rounded-full object-contain'
           />
         </Link>
       )}
