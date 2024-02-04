@@ -111,6 +111,7 @@ const ThreadCard =async (
         {!isComment && comments.length > 0 && (
         <div className='ml-1 mt-3 flex items-center gap-2'>
           {comments.slice(0, 3).map((comment, index) => (
+          
             <Image
               key={index}
               src={comment.author.image}
@@ -128,7 +129,7 @@ const ThreadCard =async (
         </div>
       )}
 
-      <div className='flex flex-col xs:flex-row gap-2 mt-5 xs:mt-0 items-center'>
+      <div className='flex flex-col xs:flex-row gap-2 mt-5 xs:mt-0 xs:items-center'>
     {
       !isComment && (
         <p className='xs:mt-5 text-subtle-medium text-gray-1'>
@@ -147,14 +148,16 @@ const ThreadCard =async (
             
             {community && `${community.name} Community`}
           </p>
-          
+          <div className='w-[14px] h-[14px] relative'>
           <Image
             src={community.image}
             alt={community.name}
-            width={14}
-            height={14}
-            className='ml-1 rounded-full object-contain'
+            fill priority
+            className='ml-1 rounded-full object-cover'
           />
+
+          </div>
+         
         </Link>
       )}
 

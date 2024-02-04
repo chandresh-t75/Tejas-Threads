@@ -26,11 +26,11 @@ const Share = ({id,author,content}:Props) => {
 
 
   return (
-    <div className=' relative'>
+    <div className='relative'>
       <Dialog >
         <DialogTrigger><Image src="/share.svg" alt="" width={24} height={24} className='relative cursor-pointer object-contain'/></DialogTrigger>
         <DialogContent className="bg-dark-2 rounded-lg p-4 px-2 xs:p-4 w-66 s:w-72 text-white  ">
-        <DialogTitle>Share via</DialogTitle>
+        <DialogTitle>Share via...</DialogTitle>
             <div className="flex gap-4 mt-2">
             <FacebookShareButton url={`https://tejas-threads-cp.vercel.app/thread/${id}`} title={content} hashtag={author} className="text-blue-500">
               <FacebookIcon className='w-8 h-8 rounded-full' />
