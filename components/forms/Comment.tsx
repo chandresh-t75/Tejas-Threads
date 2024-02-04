@@ -74,7 +74,8 @@ const Comment = ({threadId,currentUserImg,currentUserId}:Props) => {
               type="text"
               placeholder='Comment...'
         
-              className='text-light-1 outline-none no-focus' 
+              className='text-light-1 outline-none no-focus whitespace-pre-wrap' 
+              style={{ whiteSpace: 'pre-wrap' }}
               {...field}
             />
             </FormControl>

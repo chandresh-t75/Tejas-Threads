@@ -172,6 +172,7 @@ const AccountProfile = ({user,btnTitle}:Props) => {
               type="text"
         
               className='account-form_input no-focus' 
+
               {...field}
             />
             </FormControl>
@@ -186,14 +187,15 @@ const AccountProfile = ({user,btnTitle}:Props) => {
         name="bio"
         render={({ field }) => (
           <FormItem className='flex flex-col  gap-3 w-full'>
-            <FormLabel className='text-base-semibold text-light-2'>
+            <FormLabel className='text-base-semibold text-light-2 '>
                Bio
             </FormLabel>
-            <FormControl>
+            <FormControl >
               <Textarea
                rows={10}
         
-              className='account-form_input no-focus' 
+              className='account-form_input no-focus ' 
+              style={{ whiteSpace: 'pre-wrap' }}
               {...field}
             />
             </FormControl>
