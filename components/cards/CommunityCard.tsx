@@ -50,7 +50,7 @@ function CommunityCard({ id, name, username, imgUrl, bio, members }: Props) {
               <Image
                 key={index}
                 src={member.image}
-                alt={`user_${index}`}
+                alt={`userimage_${index}`}
                 width={28}
                 height={28}
                 className={`${
